@@ -2,7 +2,7 @@ html_content = """<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fish & Fresh | Свежие продукты с доставкой</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -24,6 +24,7 @@ html_content = """<!DOCTYPE html>
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent; /* Убирает синее выделение при тапе на мобильных */
         }
 
         body {
@@ -32,18 +33,16 @@ html_content = """<!DOCTYPE html>
             overflow-x: hidden;
         }
 
-        /* --- Animations --- */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Header & Logo --- */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -63,15 +62,8 @@ html_content = """<!DOCTYPE html>
             text-decoration: none;
         }
 
-        .logo span {
-            color: var(--accent);
-        }
-
-        .logo svg {
-            width: 32px;
-            height: 32px;
-            fill: var(--primary);
-        }
+        .logo span { color: var(--accent); }
+        .logo svg { width: 32px; height: 32px; fill: var(--primary); }
 
         .cart-btn {
             background: var(--primary);
@@ -87,11 +79,6 @@ html_content = """<!DOCTYPE html>
             transition: 0.3s;
         }
 
-        .cart-btn:hover {
-            background: #2a4365;
-            transform: scale(1.05);
-        }
-
         .cart-badge {
             background: var(--accent);
             color: white;
@@ -104,7 +91,6 @@ html_content = """<!DOCTYPE html>
             font-size: 0.8rem;
         }
 
-        /* --- Hero Section --- */
         .hero {
             margin-top: 70px;
             padding: 60px 20px;
@@ -123,10 +109,7 @@ html_content = """<!DOCTYPE html>
             flex-wrap: wrap;
         }
 
-        .hero-text {
-            flex: 1;
-            min-width: 300px;
-        }
+        .hero-text { flex: 1; min-width: 300px; }
 
         .quality-badge {
             display: inline-block;
@@ -140,26 +123,15 @@ html_content = """<!DOCTYPE html>
             border: 1px solid rgba(56, 161, 105, 0.3);
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
+        .hero h1 { font-size: 3rem; color: var(--primary); margin-bottom: 15px; line-height: 1.2; }
+        .hero p { font-size: 1.1rem; color: var(--text-light); max-width: 500px; }
 
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-light);
-            max-width: 500px;
-        }
-
-        /* 3D Interactive Image */
         .hero-image-wrapper {
             flex: 1;
             min-width: 300px;
             display: flex;
             justify-content: center;
-            perspective: 1000px; /* Добавляем перспективу для 3D эффекта */
+            perspective: 1000px;
         }
 
         .interactive-img {
@@ -169,33 +141,22 @@ html_content = """<!DOCTYPE html>
             object-fit: cover;
             border-radius: 24px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
-            cursor: pointer;
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
         }
 
-        .interactive-img:hover {
-            transform: scale(1.05) rotateY(-10deg) rotateX(5deg);
-            box-shadow: -15px 30px 60px rgba(0,0,0,0.25);
-        }
-
-        /* --- Catalog --- */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
 
         .filters {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             animation: fadeInUp 1s ease-out 0.2s backwards;
         }
 
         .filter-btn {
-            padding: 8px 20px;
+            padding: 8px 16px;
             border: 2px solid var(--primary);
             background: transparent;
             color: var(--primary);
@@ -203,17 +164,15 @@ html_content = """<!DOCTYPE html>
             cursor: pointer;
             font-weight: 500;
             transition: 0.3s;
+            font-size: 0.9rem;
         }
 
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
+        .filter-btn.active { background: var(--primary); color: white; }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 25px;
         }
 
         .card {
@@ -223,45 +182,13 @@ html_content = """<!DOCTYPE html>
             box-shadow: var(--shadow);
             transition: 0.4s;
             animation: fadeInUp 1s ease-out 0.4s backwards;
-            position: relative;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .card-img {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .category-tag {
-            font-size: 0.8rem;
-            color: var(--accent);
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .card-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 15px;
-        }
+        .card-img { height: 200px; width: 100%; object-fit: cover; background-color: #e2e8f0; }
+        .card-content { padding: 20px; }
+        .category-tag { font-size: 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .card-title { font-size: 1.2rem; margin-bottom: 10px; color: var(--primary); }
+        .card-price { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 15px; }
 
         .add-to-cart {
             width: 100%;
@@ -275,16 +202,11 @@ html_content = """<!DOCTYPE html>
             transition: 0.3s;
         }
 
-        .add-to-cart:hover {
-            background: var(--accent-hover);
-        }
-
-        /* --- Footer --- */
         .site-footer {
             background: var(--primary);
             color: white;
             padding: 40px 20px;
-            margin-top: 80px;
+            margin-top: 60px;
             border-radius: 40px 40px 0 0;
             animation: fadeInUp 1s ease-out 0.6s backwards;
         }
@@ -299,55 +221,16 @@ html_content = """<!DOCTYPE html>
             gap: 30px;
         }
 
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .footer-logo svg {
-            fill: white;
-            width: 36px;
-            height: 36px;
-        }
+        .footer-logo { font-size: 1.8rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .footer-logo svg { fill: white; width: 36px; height: 36px; }
+        .footer-logo span { color: var(--accent); }
+        .footer-contacts { text-align: right; }
+        .footer-contacts p { font-size: 1rem; color: #cbd5e0; margin-bottom: 8px; }
+        .footer-contacts a { display: block; color: white; text-decoration: none; font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; transition: 0.3s; }
 
-        .footer-logo span {
-            color: var(--accent);
-        }
-
-        .footer-contacts {
-            text-align: right;
-        }
-
-        .footer-contacts p {
-            font-size: 1rem;
-            color: #cbd5e0;
-            margin-bottom: 8px;
-        }
-
-        .footer-contacts a {
-            display: block;
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-            transition: 0.3s;
-        }
-
-        .footer-contacts a:hover {
-            color: var(--accent);
-        }
-
-        /* --- Modal Cart --- */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.5);
             backdrop-filter: blur(5px);
             display: flex;
@@ -359,10 +242,7 @@ html_content = """<!DOCTYPE html>
             transition: 0.3s;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
 
         .modal {
             background: white;
@@ -376,63 +256,24 @@ html_content = """<!DOCTYPE html>
             overflow-y: auto;
         }
 
-        .modal-overlay.active .modal {
-            transform: scale(1);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .cart-items {
-            margin-bottom: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        .cart-item-title {
-            font-weight: 500;
-        }
-
-        .cart-total {
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
+        .modal-overlay.active .modal { transform: scale(1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-title { font-size: 1.5rem; color: var(--primary); }
+        .close-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+        .cart-items { margin-bottom: 20px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #edf2f7; }
+        .cart-item-title { font-weight: 500; font-size: 0.95rem; }
+        .cart-total { font-size: 1.3rem; font-weight: 700; text-align: right; margin-bottom: 20px; }
+        
         .order-form input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 15px;
             border: 1px solid #cbd5e0;
             border-radius: 8px;
             font-size: 1rem;
         }
 
-        /* --- Кнопка MAX --- */
         .btn-max {
             width: 100%;
             padding: 15px;
@@ -450,29 +291,46 @@ html_content = """<!DOCTYPE html>
             gap: 10px;
         }
 
-        .btn-max:hover {
-            background: #4f46e5;
-        }
-
-        /* Адаптивность для мобильных */
+        /* --- ПРАВИЛЬНАЯ АДАПТАЦИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ --- */
         @media (max-width: 768px) {
-            .hero-container {
-                flex-direction: column;
-                text-align: center;
-            }
+            header { padding: 10px 15px; }
+            .logo { font-size: 1.3rem; }
+            .logo svg { width: 28px; height: 28px; }
+            .cart-btn { padding: 8px 16px; font-size: 0.9rem; }
+            
+            .hero { padding: 40px 15px; border-radius: 0 0 25px 25px; }
+            .hero-container { flex-direction: column; text-align: center; gap: 25px; }
+            .hero-text { min-width: 100%; }
             .hero h1 { font-size: 2.2rem; }
-            .hero p { margin: 0 auto; }
-            .footer-container {
-                flex-direction: column;
-                text-align: center;
-            }
+            .hero p { font-size: 1rem; margin: 0 auto; }
+            
+            .interactive-img { height: 220px; border-radius: 16px; max-width: 100%; }
+            .hero-image-wrapper { min-width: 100%; }
+            
+            /* Сетка строго в 1 колонку на телефоне */
+            .grid { grid-template-columns: 1fr; gap: 20px; }
+            
+            .footer-container { flex-direction: column; text-align: center; gap: 20px; }
             .footer-contacts { text-align: center; }
+            
+            .modal { padding: 20px; width: 95%; }
+            .modal-title { font-size: 1.3rem; }
         }
 
+        /* Hover-эффекты применяем ТОЛЬКО для устройств с мышкой (ПК). 
+           На телефонах hover залипает и ломает интерфейс */
+        @media (hover: hover) {
+            .cart-btn:hover { background: #2a4365; transform: scale(1.05); }
+            .filter-btn:hover { background: var(--primary); color: white; }
+            .interactive-img:hover { transform: scale(1.05) rotateY(-10deg) rotateX(5deg); box-shadow: -15px 30px 60px rgba(0,0,0,0.25); }
+            .card:hover { transform: translateY(-10px); box-shadow: var(--shadow-hover); }
+            .add-to-cart:hover { background: var(--accent-hover); }
+            .footer-contacts a:hover { color: var(--accent); }
+            .btn-max:hover { background: #4f46e5; }
+        }
     </style>
 </head>
 <body>
-
     <header>
         <a href="#" class="logo">
             <svg viewBox="0 0 24 24">
@@ -491,12 +349,11 @@ html_content = """<!DOCTYPE html>
             <div class="hero-text">
                 <div class="quality-badge">✨ Качественные продукты, всегда свежие</div>
                 <h1>Свежие дары природы с доставкой</h1>
-                <p>Рыба, морепродукты, фермерское мясо и лесные ягоды. Заказывайте в пару кликов, оплачивайте при получении.</p>
+                <p>Рыба, морепродукты, фермерское мясо и лесные ягоды. Заказывайте в пару кликов.</p>
             </div>
-            
             <div class="hero-image-wrapper">
-                <!-- Интерактивная картинка с красивым свежим лососем -->
-                <img src="https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Свежая рыба" class="interactive-img">
+                <!-- Оптимизированная картинка с loading="lazy" -->
+                <img src="https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=70" alt="Свежая рыба" class="interactive-img" loading="lazy" fetchpriority="high">
             </div>
         </div>
     </section>
@@ -515,7 +372,6 @@ html_content = """<!DOCTYPE html>
         </div>
     </main>
 
-    <!-- Подвал (Footer) с контактами -->
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-logo">
@@ -534,28 +390,18 @@ html_content = """<!DOCTYPE html>
         </div>
     </footer>
 
-    <!-- Cart Modal -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal">
             <div class="modal-header">
                 <h2 class="modal-title">Ваш заказ</h2>
                 <button class="close-modal" onclick="toggleModal()">&times;</button>
             </div>
-            
             <div id="empty-cart-msg">Корзина пока пуста.</div>
-            
-            <div class="cart-items" id="cart-items">
-                <!-- Cart items will appear here -->
-            </div>
-            
-            <div class="cart-total" id="cart-total" style="display:none;">
-                Итого: <span>0</span> ₽
-            </div>
-            
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-total" id="cart-total" style="display:none;">Итого: <span>0</span> ₽</div>
             <form class="order-form" id="order-form" style="display:none;">
                 <input type="text" id="customer-name" placeholder="Ваше имя" required>
                 <input type="tel" id="customer-phone" placeholder="Ваш телефон" required>
-                
                 <button type="button" class="btn-max" onclick="sendOrder()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
                         <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
@@ -567,13 +413,14 @@ html_content = """<!DOCTYPE html>
     </div>
 
     <script>
+        // Уменьшил вес картинок (w=400, q=60) для быстрой загрузки
         const products = [
-            { id: 1, title: 'Стейк семги охлажденный', price: 1800, unit: 'кг', category: 'fish', img: 'https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 2, title: 'Креветки тигровые очищенные', price: 1200, unit: 'кг', category: 'seafood', img: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 3, title: 'Говядина вырезка (фермерская)', price: 950, unit: 'кг', category: 'meat', img: 'https://images.unsplash.com/photo-1603048297172-c92544798d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 4, title: 'Клубника лесная замороженная', price: 450, unit: 'кг', category: 'berries', img: 'https://images.unsplash.com/photo-1600889240428-fb459ebdd9bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 5, title: 'Филе минтая (сухая заморозка)', price: 350, unit: 'кг', category: 'fish', img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' },
-            { id: 6, title: 'Комплекс Омега-3 (из дикой рыбы)', price: 1100, unit: 'уп', category: 'seafood', img: 'https://images.unsplash.com/photo-1584308666744-24d5e4a83cc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80' }
+            { id: 1, title: 'Стейк семги охлажденный', price: 1800, unit: 'кг', category: 'fish', img: 'https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 2, title: 'Креветки тигровые очищенные', price: 1200, unit: 'кг', category: 'seafood', img: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 3, title: 'Говядина вырезка (фермерская)', price: 950, unit: 'кг', category: 'meat', img: 'https://images.unsplash.com/photo-1603048297172-c92544798d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 4, title: 'Клубника лесная замороженная', price: 450, unit: 'кг', category: 'berries', img: 'https://images.unsplash.com/photo-1600889240428-fb459ebdd9bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 5, title: 'Филе минтая (сухая заморозка)', price: 350, unit: 'кг', category: 'fish', img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' },
+            { id: 6, title: 'Комплекс Омега-3 (из дикой рыбы)', price: 1100, unit: 'уп', category: 'seafood', img: 'https://images.unsplash.com/photo-1584308666744-24d5e4a83cc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60' }
         ];
 
         let cart = {};
@@ -581,19 +428,19 @@ html_content = """<!DOCTYPE html>
         function renderProducts(filter = 'all') {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
-            
             const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
             
             filtered.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'card';
+                // Добавлен атрибут loading="lazy" для отложенной загрузки картинок
                 card.innerHTML = `
-                    <img src="${product.img}" alt="${product.title}" class="card-img">
+                    <img src="${product.img}" alt="${product.title}" class="card-img" loading="lazy">
                     <div class="card-content">
                         <span class="category-tag">${getCategoryName(product.category)}</span>
                         <h3 class="card-title">${product.title}</h3>
                         <div class="card-price">${product.price} ₽ / ${product.unit}</div>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">Добавить в корзину</button>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">В корзину</button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -601,26 +448,16 @@ html_content = """<!DOCTYPE html>
         }
 
         function getCategoryName(cat) {
-            const names = {
-                'fish': 'Рыба',
-                'seafood': 'Морепродукты',
-                'meat': 'Мясо',
-                'berries': 'Ягоды'
-            };
+            const names = { 'fish': 'Рыба', 'seafood': 'Морепродукты', 'meat': 'Мясо', 'berries': 'Ягоды' };
             return names[cat] || cat;
         }
 
         function addToCart(id) {
-            if(cart[id]) {
-                cart[id]++;
-            } else {
-                cart[id] = 1;
-            }
+            cart[id] = (cart[id] || 0) + 1;
             updateCartUI();
-            
             const btn = event.target;
             const originalText = btn.innerText;
-            btn.innerText = "✓ Добавлено";
+            btn.innerText = "✓";
             btn.style.background = "var(--accent-hover)";
             setTimeout(() => {
                 btn.innerText = originalText;
@@ -629,8 +466,7 @@ html_content = """<!DOCTYPE html>
         }
 
         function updateCartUI() {
-            let totalCount = 0;
-            let totalPrice = 0;
+            let totalCount = 0, totalPrice = 0;
             const itemsContainer = document.getElementById('cart-items');
             itemsContainer.innerHTML = '';
 
@@ -639,13 +475,10 @@ html_content = """<!DOCTYPE html>
                 const product = products.find(p => p.id == id);
                 totalCount += count;
                 totalPrice += product.price * count;
-
                 itemsContainer.innerHTML += `
                     <div class="cart-item">
                         <div class="cart-item-title">${product.title}</div>
-                        <div>
-                            ${count} ${product.unit}. x ${product.price} ₽ = <b>${count * product.price} ₽</b>
-                        </div>
+                        <div>${count} ${product.unit}. x ${product.price} ₽ = <b>${count * product.price} ₽</b></div>
                     </div>
                 `;
             }
@@ -653,28 +486,13 @@ html_content = """<!DOCTYPE html>
             document.getElementById('cart-count').innerText = totalCount;
             document.getElementById('cart-total').querySelector('span').innerText = totalPrice;
 
-            const emptyMsg = document.getElementById('empty-cart-msg');
-            const totalDiv = document.getElementById('cart-total');
-            const form = document.getElementById('order-form');
-
-            if(totalCount > 0) {
-                emptyMsg.style.display = 'none';
-                totalDiv.style.display = 'block';
-                form.style.display = 'block';
-            } else {
-                emptyMsg.style.display = 'block';
-                totalDiv.style.display = 'none';
-                form.style.display = 'none';
-            }
+            document.getElementById('empty-cart-msg').style.display = totalCount > 0 ? 'none' : 'block';
+            document.getElementById('cart-total').style.display = totalCount > 0 ? 'block' : 'none';
+            document.getElementById('order-form').style.display = totalCount > 0 ? 'block' : 'none';
         }
 
-        function toggleModal() {
-            document.getElementById('cart-modal').classList.toggle('active');
-        }
-
-        document.getElementById('cart-modal').addEventListener('click', function(e) {
-            if(e.target === this) toggleModal();
-        });
+        function toggleModal() { document.getElementById('cart-modal').classList.toggle('active'); }
+        document.getElementById('cart-modal').addEventListener('click', function(e) { if(e.target === this) toggleModal(); });
 
         function filterProducts(cat) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -685,15 +503,10 @@ html_content = """<!DOCTYPE html>
         function sendOrder() {
             const name = document.getElementById('customer-name').value;
             const phone = document.getElementById('customer-phone').value;
-
-            if(!name || !phone) {
-                alert("Пожалуйста, заполните имя и номер телефона.");
-                return;
-            }
+            if(!name || !phone) { alert("Пожалуйста, заполните имя и номер телефона."); return; }
 
             let text = `*Новый заказ (Fish & Fresh)* 🐟🌿\n\n`;
             let totalPrice = 0;
-
             let counter = 1;
             for (let id in cart) {
                 const count = cart[id];
@@ -702,14 +515,8 @@ html_content = """<!DOCTYPE html>
                 totalPrice += product.price * count;
                 counter++;
             }
-
-            text += `\n*Итого: ${totalPrice} ₽*\n\n`;
-            text += `👤 Имя: ${name}\n`;
-            text += `📞 Телефон: ${phone}\n`; 
-            text += `💵 Оплата: Наличными при получении`;
-
-            const maxUrl = `https://max.me/send?text=${encodeURIComponent(text)}`;
-            window.open(maxUrl, '_blank');
+            text += `\n*Итого: ${totalPrice} ₽*\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n💵 Оплата: Наличными при получении`;
+            window.open(`https://max.me/send?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         renderProducts();
@@ -717,7 +524,6 @@ html_content = """<!DOCTYPE html>
 </body>
 </html>
 """
-
-with open("fish_and_fresh_shop_v3.html", "w", encoding="utf-8") as f:
+with open("fish_and_fresh_shop_v4.html", "w", encoding="utf-8") as f:
     f.write(html_content)
-print("File successfully created with the hero text, interactive 3D image, and a new footer.")
+print("File successfully created with mobile and performance optimizations.")
